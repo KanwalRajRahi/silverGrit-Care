@@ -96,21 +96,6 @@ silvergrit-app/
 
 3. Open the project in your preferred code editor.
 
-4. To view the website locally, you can use any of these methods:
-   - Double-click on `index.html` to open it in your browser
-   - Use a local development server (recommended):
-     ```bash
-     # Using Python
-     python -m http.server 8000
-     
-     # Using Node.js
-     npx serve
-     ```
-
-5. Access the website at:
-   - `http://localhost:8000` (Python server)
-   - `http://localhost:3000` (Node.js server)
-
 ## Development
 
 ### CSS Structure
@@ -157,6 +142,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 
 For any questions or concerns, please contact:
-- Email: info@silvergrit.com
-- Phone: (555) 123-4567
-- Website: www.silvergrit.com 
+- Email: silvergricare@gmail.com
+- Phone: 91 9999690161
+- Website: www.deepthinkworld.com 

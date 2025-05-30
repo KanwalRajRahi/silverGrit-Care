@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - SilverGrit Elder Care</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .shop-container {
+            padding: 120px 0 60px;
+        }
+
+        .shop-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* Filters Sidebar */
+        .filters-sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .price-range input {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating i {
+            color: #ffd700;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Search and Sort */
+        .shop-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-options select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pagination button:hover,
+        .pagination button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .shop-container {
+                padding: 100px 0 40px;
+            }
+
+            .shop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .sort-options {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .developer-credit a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .developer-credit a:hover {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>SilverGrit</h1>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="telehealth.html">Telehealth</a></li>
+                <li><a href="training.html">Training</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Shop Section -->
+    <section class="shop-container">
+        <div class="container">
+            <div class="shop-header">
+                <h2>Elder Care Shop</h2>
+                <p class="section-description">Quality products for enhanced comfort and well-being.</p>
+            </div>
+
+            <div class="shop-grid">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="mobility">
+                                Mobility Aids
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="safety">
+                                Safety Equipment
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="comfort">
+                                Comfort Items
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="medical">
+                                Medical Supplies
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="price-range">
+                            <input type="number" placeholder="Min" min="0">
+                            <span>to</span>
+                            <input type="number" placeholder="Max" min="0">
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Rating</h3>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="rating" value="4">
+                                4★ & Up
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="rating" value="3">
+                                3★ & Up
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="rating" value="2">
+                                2★ & Up
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+                </aside>
+
+                <!-- Products Section -->
+                <div class="products-section">
+                    <div class="shop-controls">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search products...">
+                            <button class="btn btn-primary">Search</button>
+                        </div>
+                        <div class="sort-options">
+                            <span>Sort by:</span>
+                            <select>
+                                <option value="popular">Most Popular</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="products-grid">
+                        <!-- Buy Website/Domain Card -->
+                        <div class="product-card" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4);">
+                            <div class="product-info" style="text-align: center; color: white;">
+                                <h3 class="product-title" style="color: white;">Buy Website/Domain</h3>
+                                <p class="product-description" style="color: white;">Get your own professional website and domain name for your business.</p>
+                                <a href="https://kanwalrajrahi.com/" target="_blank" class="btn btn-primary" style="background: white; color: #ff6b6b; text-decoration: none; display: inline-block; margin-top: 1rem;">Learn More</a>
+                            </div>
+                        </div>
+                        <!-- Product cards will be dynamically added here -->
+                    </div>
+
+                    <div class="pagination">
+                        <button>1</button>
+                        <button class="active">2</button>
+                        <button>3</button>
+                        <button>Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> +91 9999690161</p>
+                    <p><i class="fas fa-envelope"></i> silvergritcare@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> info@silvergritcare.com</p>
+                    <p><i class="fas fa-location-dot"></i> Silvergrit Care Private Limited, House No. 4/2286, Street No. 4, Bihari Colony, Shahdara, Delhi, India</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SilverGrit. All rights reserved.</p>
+                <p class="developer-credit">Developed with ❤️ by <a href="https://kanwalrajrahi.com/" target="_blank">Kanwal Raj Rahi</a> (9999690161)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Premium Mobility Walker",
+                price: 199.99,
+                image: "images/walker.jpg",
+                description: "Lightweight, adjustable walker with comfortable handles and smooth-rolling wheels.",
+                rating: 4.5,
+                category: "mobility"
+            },
+            {
+                id: 2,
+                name: "Bed Safety Rail",
+                price: 89.99,
+                image: "images/bed-rail.jpg",
+                description: "Adjustable bed rail for added safety and support when getting in and out of bed.",
+                rating: 4.2,
+                category: "safety"
+            },
+            // Add more products as needed
+        ];
+
+        // Function to generate product cards
+        function generateProductCards(products) {
+            const productsGrid = document.querySelector('.products-grid');
+            productsGrid.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-rating">
+                            ${generateStars(product.rating)}
+                            <span>(${product.rating})</span>
+                        </div>
+                        <p class="product-price">$${product.price.toFixed(2)}</p>
+                        <p class="product-description">${product.description}</p>
+                        <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Function to generate star ratings
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
+
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+
+            return stars;
+        }
+
+        // Initialize product display
+        generateProductCards(products);
+
+        // Add event listeners for filters
+        document.querySelectorAll('.filter-option input').forEach(input => {
+            input.addEventListener('change', () => {
+                // Implement filter logic here
+                console.log('Filter changed:', input.name, input.value);
+            });
+        });
+
+        // Add event listeners for search
+        const searchInput = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            generateProductCards(filteredProducts);
+        });
+
+        // Add event listeners for sorting
+        const sortSelect = document.querySelector('.sort-options select');
+        sortSelect.addEventListener('change', () => {
+            const sortValue = sortSelect.value;
+            let sortedProducts = [...products];
+
+            switch (sortValue) {
+                case 'price-low':
+                    sortedProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sortedProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sortedProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                // Add more sorting options as needed
+            }
+
+            generateProductCards(sortedProducts);
+        });
+    </script>
+</body>
+</html> 

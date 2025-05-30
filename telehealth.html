@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telehealth - SilverGrit Elder Care</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .telehealth-container {
+            padding: 120px 0 60px;
+        }
+
+        .telehealth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .telehealth-info {
+            padding: 2rem;
+            background: var(--accent-color);
+            border-radius: var(--border-radius);
+        }
+
+        .telehealth-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .telehealth-info ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .telehealth-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .telehealth-info i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(44, 82, 130, 0.1);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Calendar */
+        .calendar {
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-day:hover {
+            background: var(--accent-color);
+        }
+
+        .calendar-day.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .calendar-day.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Time Slots */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .time-slot:hover {
+            background: var(--accent-color);
+        }
+
+        .time-slot.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .telehealth-container {
+                padding: 100px 0 40px;
+            }
+
+            .telehealth-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid {
+                gap: 0.25rem;
+            }
+
+            .calendar-day {
+                padding: 0.25rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Add new styles for developer credit */
+        .developer-credit a {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .developer-credit a:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 8px rgba(78, 205, 196, 0.3);
+        }
+
+        .developer-credit a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .developer-credit a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>SilverGrit</h1>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="telehealth.html" class="active">Telehealth</a></li>
+                <li><a href="training.html">Training</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Telehealth Section -->
+    <section class="telehealth-container">
+        <div class="container">
+            <h2>Virtual Healthcare Consultations</h2>
+            <p class="section-description">Connect with healthcare professionals from the comfort of your home.</p>
+
+            <div class="telehealth-grid">
+                <div class="telehealth-info">
+                    <h3>Benefits of Telehealth</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-home"></i>
+                            <span>Receive care from the comfort of your home</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Save time with no travel required</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Reduce exposure to illnesses</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-user-md"></i>
+                            <span>Access to specialized healthcare professionals</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-comments"></i>
+                            <span>Easy communication with your healthcare team</span>
+                        </li>
+                    </ul>
+
+                    <h3>How It Works</h3>
+                    <ol>
+                        <li>Book your appointment using the form</li>
+                        <li>Receive confirmation and video call link</li>
+                        <li>Connect with your healthcare provider at the scheduled time</li>
+                        <li>Receive follow-up care instructions</li>
+                    </ol>
+                </div>
+
+                <div class="booking-form">
+                    <h3>Book Your Virtual Consultation</h3>
+                    <form id="telehealthForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="service">Service Type</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="general">General Consultation</option>
+                                <option value="specialist">Specialist Consultation</option>
+                                <option value="follow-up">Follow-up Visit</option>
+                                <option value="emergency">Emergency Consultation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <div class="calendar">
+                                <div class="calendar-header">
+                                    <button type="button" id="prevMonth">&lt;</button>
+                                    <h4 id="currentMonth">January 2024</h4>
+                                    <button type="button" id="nextMonth">&gt;</button>
+                                </div>
+                                <div class="calendar-grid" id="calendarGrid">
+                                    <!-- Calendar days will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Time</label>
+                            <div class="time-slots" id="timeSlots">
+                                <!-- Time slots will be dynamically added here -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" name="notes" placeholder="Please provide any relevant information about your condition or concerns"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Book Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> +91 9999690161</p>
+                    <p><i class="fas fa-envelope"></i> silvergritcare@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> info@silvergritcare.com</p>
+                    <p><i class="fas fa-location-dot"></i> Silvergrit Care Private Limited, House No. 4/2286, Street No. 4, Bihari Colony, Shahdara, Delhi, India</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SilverGrit. All rights reserved.</p>
+                <p class="developer-credit">Developed with ❤️ by <a href="https://kanwalrajrahi.com/" target="_blank">Kanwal Raj Rahi</a> (9999690161)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Calendar functionality
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthElement = document.getElementById('currentMonth');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const timeSlots = document.getElementById('timeSlots');
+        const telehealthForm = document.getElementById('telehealthForm');
+
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // Generate time slots
+        function generateTimeSlots() {
+            timeSlots.innerHTML = '';
+            const slots = [
+                '09:00 AM', '10:00 AM', '11:00 AM',
+                '02:00 PM', '03:00 PM', '04:00 PM'
+            ];
+
+            slots.forEach(slot => {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = slot;
+                timeSlot.addEventListener('click', () => {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    timeSlot.classList.add('selected');
+                    selectedTime = slot;
+                });
+                timeSlots.appendChild(timeSlot);
+            });
+        }
+
+        // Generate calendar
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            currentMonthElement.textContent = `${firstDay.toLocaleString('default', { month: 'long' })} ${year}`;
+            
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day disabled';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                const currentDay = new Date(year, month, day);
+                if (currentDay < new Date().setHours(0,0,0,0)) {
+                    dayElement.classList.add('disabled');
+                } else {
+                    dayElement.addEventListener('click', () => {
+                        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                        dayElement.classList.add('selected');
+                        selectedDate = currentDay;
+                        generateTimeSlots();
+                    });
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Event listeners for month navigation
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        });
+
+        // Form submission
+        telehealthForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!selectedDate || !selectedTime) {
+                alert('Please select both a date and time for your appointment.');
+                return;
+            }
+
+            const formData = new FormData(telehealthForm);
+            const appointmentData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                service: formData.get('service'),
+                date: selectedDate.toLocaleDateString(),
+                time: selectedTime,
+                notes: formData.get('notes')
+            };
+
+            // Here you would typically send the data to your server
+            console.log('Appointment Data:', appointmentData);
+            alert('Appointment booked successfully! We will send you a confirmation email shortly.');
+            telehealthForm.reset();
+            selectedDate = null;
+            selectedTime = null;
+            document.querySelectorAll('.calendar-day, .time-slot').forEach(el => el.classList.remove('selected'));
+        });
+
+        // Initialize calendar and time slots
+        generateCalendar();
+        generateTimeSlots();
+    </script>
+</body>
+</html> 

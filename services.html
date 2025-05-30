@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - SilverGrit Elder Care</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .services-container {
+            padding: 120px 0 60px;
+        }
+
+        .service-category {
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .service-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .service-header:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .service-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .service-content {
+            background-color: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .service-content.active {
+            padding: 2rem;
+            max-height: 1000px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-item {
+            background-color: var(--accent-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .service-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-item h4 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .service-item p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .service-item .price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .service-item .btn {
+            margin-top: 1rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .services-container {
+                padding: 100px 0 40px;
+            }
+
+            .service-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add new styles for developer credit */
+        .developer-credit a {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .developer-credit a:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 8px rgba(78, 205, 196, 0.3);
+        }
+
+        .developer-credit a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .developer-credit a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>SilverGrit</h1>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="telehealth.html">Telehealth</a></li>
+                <li><a href="training.html">Training</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Services Section -->
+    <section class="services-container">
+        <div class="container">
+            <h2>Our Services</h2>
+            <p class="section-description">Comprehensive care solutions tailored to meet the unique needs of seniors and their families.</p>
+
+            <!-- Elder Care Services -->
+            <div class="service-category">
+                <div class="service-header" data-category="elder-care">
+                    <h3>Elder Care Services</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="service-content" id="elder-care">
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <i class="fas fa-home"></i>
+                            <h4>In-Home Care</h4>
+                            <p>Professional caregivers providing assistance with daily activities in the comfort of your home.</p>
+                            <p class="price">Starting at $25/hour</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-bed"></i>
+                            <h4>Respite Care</h4>
+                            <p>Temporary relief for primary caregivers, ensuring continuous care for your loved ones.</p>
+                            <p class="price">Starting at $30/hour</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Meal Preparation</h4>
+                            <p>Nutritious meal planning and preparation tailored to dietary needs and preferences.</p>
+                            <p class="price">Starting at $20/hour</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle & Wellness -->
+            <div class="service-category">
+                <div class="service-header" data-category="lifestyle">
+                    <h3>Lifestyle & Wellness</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="service-content" id="lifestyle">
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <i class="fas fa-heartbeat"></i>
+                            <h4>Fitness Programs</h4>
+                            <p>Age-appropriate exercise programs designed to maintain mobility and strength.</p>
+                            <p class="price">Starting at $40/session</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-spa"></i>
+                            <h4>Wellness Activities</h4>
+                            <p>Engaging activities promoting mental and physical well-being.</p>
+                            <p class="price">Starting at $35/session</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical & Non-Medical Assistance -->
+            <div class="service-category">
+                <div class="service-header" data-category="medical">
+                    <h3>Medical & Non-Medical Assistance</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="service-content" id="medical">
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <i class="fas fa-pills"></i>
+                            <h4>Medication Management</h4>
+                            <p>Assistance with medication reminders and organization.</p>
+                            <p class="price">Starting at $25/hour</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-notes-medical"></i>
+                            <h4>Health Monitoring</h4>
+                            <p>Regular health check-ups and vital signs monitoring.</p>
+                            <p class="price">Starting at $30/hour</p>
+                            <a href="contact.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telehealth Services -->
+            <div class="service-category">
+                <div class="service-header" data-category="telehealth">
+                    <h3>Telehealth & Virtual Care</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="service-content" id="telehealth">
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <i class="fas fa-video"></i>
+                            <h4>Virtual Consultations</h4>
+                            <p>Remote healthcare consultations with qualified professionals.</p>
+                            <p class="price">Starting at $50/session</p>
+                            <a href="telehealth.html" class="btn btn-primary">Book Now</a>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-comments"></i>
+                            <h4>Online Support Groups</h4>
+                            <p>Virtual support groups for seniors and caregivers.</p>
+                            <p class="price">Free</p>
+                            <a href="contact.html" class="btn btn-primary">Join Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> +91 9999690161</p>
+                    <p><i class="fas fa-envelope"></i> silvergritcare@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> info@silvergritcare.com</p>
+                    <p><i class="fas fa-location-dot"></i> Silvergrit Care Private Limited, House No. 4/2286, Street No. 4, Bihari Colony, Shahdara, Delhi, India</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SilverGrit. All rights reserved.</p>
+                <p class="developer-credit">Developed with ❤️ by <a href="https://kanwalrajrahi.com/" target="_blank">Kanwal Raj Rahi</a> (9999690161)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Service Category Toggle
+        document.querySelectorAll('.service-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = document.getElementById(header.dataset.category);
+                const icon = header.querySelector('i');
+                
+                // Toggle active class
+                content.classList.toggle('active');
+                
+                // Rotate icon
+                icon.style.transform = content.classList.contains('active') 
+                    ? 'rotate(180deg)' 
+                    : 'rotate(0)';
+                
+                // Close other categories
+                document.querySelectorAll('.service-content').forEach(otherContent => {
+                    if (otherContent !== content && otherContent.classList.contains('active')) {
+                        otherContent.classList.remove('active');
+                        const otherIcon = otherContent.previousElementSibling.querySelector('i');
+                        otherIcon.style.transform = 'rotate(0)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

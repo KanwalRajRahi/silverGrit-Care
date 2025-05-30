@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training - SilverGrit Elder Care</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .training-container {
+            padding: 120px 0 60px;
+        }
+
+        .training-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .course-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-tag {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Course Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-color);
+        }
+
+        .course-curriculum {
+            margin-top: 2rem;
+        }
+
+        .curriculum-item {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .curriculum-item:hover {
+            background: var(--accent-color);
+        }
+
+        .curriculum-item i {
+            color: var(--primary-color);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .training-container {
+                padding: 100px 0 40px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+            }
+        }
+
+        /* Add new styles for developer credit */
+        .developer-credit a {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .developer-credit a:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 8px rgba(78, 205, 196, 0.3);
+        }
+
+        .developer-credit a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .developer-credit a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .developer-credit {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>SilverGrit</h1>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="telehealth.html">Telehealth</a></li>
+                <li><a href="training.html" class="active">Training</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Training Section -->
+    <section class="training-container">
+        <div class="container">
+            <div class="training-header">
+                <h2>Caregiver Training & Education</h2>
+                <p class="section-description">Enhance your caregiving skills with our comprehensive training programs.</p>
+            </div>
+
+            <div class="training-grid">
+                <!-- Basic Caregiving Course -->
+                <div class="course-card">
+                    <img src="images/basic-care.jpg" alt="Basic Caregiving" class="course-image">
+                    <div class="course-content">
+                        <h3>Basic Caregiving Skills</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 8 weeks</span>
+                            <span><i class="fas fa-user-graduate"></i> Beginner</span>
+                        </div>
+                        <p class="course-description">Learn essential caregiving skills including personal care, medication management, and basic medical procedures.</p>
+                        <div class="course-tags">
+                            <span class="course-tag">Certification</span>
+                            <span class="course-tag">Hands-on</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCourseModal('basic')">View Course</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Medical Care -->
+                <div class="course-card">
+                    <img src="images/medical-care.jpg" alt="Advanced Medical Care" class="course-image">
+                    <div class="course-content">
+                        <h3>Advanced Medical Care</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 12 weeks</span>
+                            <span><i class="fas fa-user-graduate"></i> Advanced</span>
+                        </div>
+                        <p class="course-description">Master advanced medical procedures, emergency response, and specialized care techniques.</p>
+                        <div class="course-tags">
+                            <span class="course-tag">Certification</span>
+                            <span class="course-tag">Medical</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCourseModal('advanced')">View Course</button>
+                    </div>
+                </div>
+
+                <!-- Dementia Care -->
+                <div class="course-card">
+                    <img src="images/dementia-care.jpg" alt="Dementia Care" class="course-image">
+                    <div class="course-content">
+                        <h3>Dementia Care Specialist</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 6 weeks</span>
+                            <span><i class="fas fa-user-graduate"></i> Intermediate</span>
+                        </div>
+                        <p class="course-description">Specialized training in dementia care, communication techniques, and behavioral management.</p>
+                        <div class="course-tags">
+                            <span class="course-tag">Specialization</span>
+                            <span class="course-tag">Behavioral</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCourseModal('dementia')">View Course</button>
+                    </div>
+                </div>
+
+                <!-- Emergency Response -->
+                <div class="course-card">
+                    <img src="images/emergency.jpg" alt="Emergency Response" class="course-image">
+                    <div class="course-content">
+                        <h3>Emergency Response Training</h3>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> 4 weeks</span>
+                            <span><i class="fas fa-user-graduate"></i> All Levels</span>
+                        </div>
+                        <p class="course-description">Learn critical emergency response skills, first aid, and crisis management techniques.</p>
+                        <div class="course-tags">
+                            <span class="course-tag">Certification</span>
+                            <span class="course-tag">Emergency</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCourseModal('emergency')">View Course</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Details Modal -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Course Title</h3>
+                <button class="modal-close" onclick="closeCourseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="course-info">
+                    <div class="course-meta">
+                        <span><i class="fas fa-clock"></i> <span id="modalDuration">Duration</span></span>
+                        <span><i class="fas fa-user-graduate"></i> <span id="modalLevel">Level</span></span>
+                        <span><i class="fas fa-certificate"></i> <span id="modalCertification">Certification</span></span>
+                    </div>
+                    <p id="modalDescription" class="course-description"></p>
+                </div>
+
+                <div class="progress-container">
+                    <h4>Course Progress</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="course-curriculum">
+                    <h4>Course Curriculum</h4>
+                    <div id="curriculumList">
+                        <!-- Curriculum items will be added dynamically -->
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="enrollInCourse()">Enroll Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> +91 9999690161</p>
+                    <p><i class="fas fa-envelope"></i> silvergritcare@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> info@silvergritcare.com</p>
+                    <p><i class="fas fa-location-dot"></i> Silvergrit Care Private Limited, House No. 4/2286, Street No. 4, Bihari Colony, Shahdara, Delhi, India</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="https://kanwalrajrahi.com/" target="_blank">Buy Website/Domain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SilverGrit. All rights reserved.</p>
+                <p class="developer-credit">Developed with ❤️ by <a href="https://kanwalrajrahi.com/" target="_blank">Kanwal Raj Rahi</a> (9999690161)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Course data
+        const courses = {
+            basic: {
+                title: 'Basic Caregiving Skills',
+                duration: '8 weeks',
+                level: 'Beginner',
+                certification: 'Basic Caregiving Certificate',
+                description: 'This comprehensive course covers essential caregiving skills including personal care, medication management, and basic medical procedures. Perfect for those starting their caregiving journey.',
+                curriculum: [
+                    'Introduction to Caregiving',
+                    'Personal Care Techniques',
+                    'Medication Management',
+                    'Basic Medical Procedures',
+                    'Communication Skills',
+                    'Safety and Emergency Procedures',
+                    'Practical Assessment',
+                    'Final Certification'
+                ]
+            },
+            advanced: {
+                title: 'Advanced Medical Care',
+                duration: '12 weeks',
+                level: 'Advanced',
+                certification: 'Advanced Medical Care Certificate',
+                description: 'Master advanced medical procedures, emergency response, and specialized care techniques. This course is designed for experienced caregivers looking to enhance their medical care skills.',
+                curriculum: [
+                    'Advanced Medical Procedures',
+                    'Emergency Response Training',
+                    'Specialized Care Techniques',
+                    'Medical Equipment Operation',
+                    'Patient Assessment',
+                    'Treatment Planning',
+                    'Clinical Practice',
+                    'Advanced Certification'
+                ]
+            },
+            dementia: {
+                title: 'Dementia Care Specialist',
+                duration: '6 weeks',
+                level: 'Intermediate',
+                certification: 'Dementia Care Specialist Certificate',
+                description: 'Specialized training in dementia care, communication techniques, and behavioral management. Learn how to provide compassionate and effective care for individuals with dementia.',
+                curriculum: [
+                    'Understanding Dementia',
+                    'Communication Strategies',
+                    'Behavioral Management',
+                    'Daily Care Techniques',
+                    'Family Support',
+                    'Practical Application',
+                    'Specialist Assessment'
+                ]
+            },
+            emergency: {
+                title: 'Emergency Response Training',
+                duration: '4 weeks',
+                level: 'All Levels',
+                certification: 'Emergency Response Certificate',
+                description: 'Learn critical emergency response skills, first aid, and crisis management techniques. This course is essential for all caregivers to ensure they can handle emergency situations effectively.',
+                curriculum: [
+                    'Emergency Assessment',
+                    'First Aid Procedures',
+                    'CPR Training',
+                    'Crisis Management',
+                    'Emergency Equipment',
+                    'Practical Scenarios',
+                    'Certification Exam'
+                ]
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('courseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDuration = document.getElementById('modalDuration');
+        const modalLevel = document.getElementById('modalLevel');
+        const modalCertification = document.getElementById('modalCertification');
+        const modalDescription = document.getElementById('modalDescription');
+        const curriculumList = document.getElementById('curriculumList');
+        const progressFill = document.getElementById('progressFill');
+
+        function openCourseModal(courseId) {
+            const course = courses[courseId];
+            modalTitle.textContent = course.title;
+            modalDuration.textContent = course.duration;
+            modalLevel.textContent = course.level;
+            modalCertification.textContent = course.certification;
+            modalDescription.textContent = course.description;
+
+            // Generate curriculum items
+            curriculumList.innerHTML = '';
+            course.curriculum.forEach((item, index) => {
+                const curriculumItem = document.createElement('div');
+                curriculumItem.className = 'curriculum-item';
+                curriculumItem.innerHTML = `
+                    <span>${index + 1}. ${item}</span>
+                    <i class="fas fa-lock"></i>
+                `;
+                curriculumList.appendChild(curriculumItem);
+            });
+
+            // Set random progress (for demonstration)
+            const progress = Math.floor(Math.random() * 100);
+            progressFill.style.width = `${progress}%`;
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCourseModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function enrollInCourse() {
+            alert('Thank you for your interest! Our enrollment system will be available soon.');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeCourseModal();
+            }
+        }
+    </script>
+</body>
+</html> 
